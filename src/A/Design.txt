@@ -34,6 +34,7 @@ v1.0:
 2.做完后代码重构,建立很多函数,将比较长的代码变短
 3.做出下载速度功能<
 
+测试网址
 https://dldir1.qq.com/invc/tt/QQBrowser_Setup_9.6.12190.400.exe
 
 </design>
@@ -49,3 +50,9 @@ https://dldir1.qq.com/invc/tt/QQBrowser_Setup_9.6.12190.400.exe
 添加重新下载功能
 添加
 </progress>
+
+<bugs>
+
+1.某些关闭命令依赖于线程池,而线程池不能提前关闭
+
+</bugs>

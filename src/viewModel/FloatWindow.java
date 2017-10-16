@@ -143,10 +143,10 @@ public class FloatWindow implements Exitable, StyleChangeable {
 
     @Override
     public void onExit() {
-        System.out.println("FloatWindow.onExit 111");
+        System.out.println("FloatWindow.onExit start");
         Platform.runLater(() -> floatStage.hide());
-        System.out.println("FloatWindow.onExit");
         exited = true;
+        System.out.println("FloatWindow.onExit end");
     }
 
     @Override

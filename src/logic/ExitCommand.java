@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 线程安全
@@ -20,10 +24,11 @@ public class ExitCommand implements Observerable<Exitable> {
     private static volatile ExitCommand exitCommand = new ExitCommand();
 
     private Set<Exitable> exitables;
-    private Set<Exitable> marks;
+    private ExecutorService innerPool;
 
     private ExitCommand() {
         exitables = Collections.synchronizedSet(new HashSet<>());
+        innerPool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 10, TimeUnit.SECONDS, new SynchronousQueue<>());
     }
 
     @Override
@@ -44,9 +49,9 @@ public class ExitCommand implements Observerable<Exitable> {
         System.out.println("ExitCommand.informAll 开始通知关闭程序");
 
         exitables.forEach(exitable -> {
-            ThreadPool.getThreadPool().getNoninterruptablePool().submit(() -> exitable.onExit());
+            innerPool.submit(() -> exitable.onExit());
         });
-        ThreadPool.getThreadPool().getNoninterruptablePool().submit(() -> {
+        innerPool.submit(() -> {
             try {
                 checkExit();
             } catch (InterruptedException e) {
@@ -63,11 +68,11 @@ public class ExitCommand implements Observerable<Exitable> {
      * @throws InterruptedException
      */
     private void checkExit() throws InterruptedException {
-        marks = new HashSet<>(exitables);
+        Set<Exitable> marks = new HashSet<>(exitables);
         while (true) {
             //考虑到仅仅是退出时轮询是否完成,所以轮询次数多点也没关系
             Thread.sleep(80);
-            marks.removeIf(exitable -> exitable.isExited());
+            marks.removeIf(Exitable::isExited);
             if (marks.isEmpty()) {
                 System.exit(0);
             }

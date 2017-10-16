@@ -242,10 +242,12 @@ public class VThunderUI implements Exitable, StyleChangeable {
 
     @Override
     public void onExit() {
+        System.out.println("VThunderUI.onExit start");
         Platform.runLater(() -> {
             vThunderstage.hide();
             exited = true;
         });
+        System.out.println("VThunderUI.onExit end");
     }
 
     @Override

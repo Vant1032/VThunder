@@ -8,6 +8,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * <p>这个线程池虽然实现了Exitable,但是并没有监听关闭事件,因为一旦监听关闭事件就会产生bug,ExitCommand依赖线程池,线程池依赖ExitCommand
+ * 线程池的关闭需要特殊处理</p>
+ * <p>这个线程池不用于关闭事件,防止形成循环依赖,ExitCommand自己内部使用线程池来控制,这个作为事务线程池</p>
  * @author Vant
  * @version 2017/10/15 下午 3:30
  */
@@ -22,7 +25,6 @@ public class ThreadPool implements Exitable{
     private ExecutorService noninterruptablePool;
 
     private ThreadPool() {
-        ExitCommand.getExitCommand().addListener(this);
         noninterruptablePool = new ThreadPoolExecutor(2, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new SynchronousQueue<>());
         interruptablePool = new ThreadPoolExecutor(2, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new SynchronousQueue<>());
     }
@@ -49,6 +51,7 @@ public class ThreadPool implements Exitable{
 
     @Override
     public void onExit() {
+        System.out.println("ThreadPool.onExit start");
         try {
             noninterruptablePool.awaitTermination(60, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
@@ -65,6 +68,8 @@ public class ThreadPool implements Exitable{
                 e.printStackTrace();
             }
         }
+
+        System.out.println("ThreadPool.onExit end");
     }
 
     @Override

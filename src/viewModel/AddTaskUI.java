@@ -119,8 +119,10 @@ public class AddTaskUI implements Exitable, StyleChangeable {
 
     @Override
     public void onExit() {
+        System.out.println("AddTaskUI.onExit start");
         Platform.runLater(() -> addTaskStage.hide());
         exited = true;
+        System.out.println("AddTaskUI.onExit end");
     }
 
     @Override

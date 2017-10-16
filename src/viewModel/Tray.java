@@ -65,9 +65,10 @@ public class Tray implements Exitable {
 
     @Override
     public void onExit() {
+        System.out.println("Tray.onExit start");
         exited = true;
-        removeTrayIcon();
-        System.out.println("Tray.onExit");
+        EventQueue.invokeLater(() -> removeTrayIcon());
+        System.out.println("Tray.onExit end");
     }
 
     @Override

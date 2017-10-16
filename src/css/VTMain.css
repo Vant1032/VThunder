@@ -1,0 +1,23 @@
+#topNav {
+    -fx-background-color: rgb(18, 152, 255);
+}
+
+#topNav:hover {
+    -fx-opacity: 90%;
+}
+
+.table-cell {
+    -fx-alignment: center;
+}
+
+#all {
+    -fx-background-image: url("../img/background/bg1.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center;
+}
+
+#maximize:hover, #minize:hover, #close:hover, #setting:hover, #add:hover {
+    -fx-translate-x: 1.5;
+    -fx-cursor: hand;
+}

@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * 一些事务需要监听设置的改变
+ *
  * @author Vant
  * @version 2017/10/9 下午 10:55
  */
@@ -28,6 +30,11 @@ public class SettingUI implements StyleChangeable {
     private ConfigUtil configUtil;
     public static final String DEFAULTDIR = "DEFAULTDIR", ISBGSWITCH = "ISBGSWITCH", TRUR = "true", FALSE = "false";
 
+    //原设置 用于更新设置事件用----------------------
+    private boolean oBgImgSwitch;
+    private String odir = "";
+    //---------------------------
+
     public SettingUI(Window parentWindow) throws IOException {
         makeInterface(parentWindow);
 
@@ -35,27 +42,22 @@ public class SettingUI implements StyleChangeable {
 
         addEvent(parentWindow);
 
-        loadSettingFromXML();
-
         settingStage.show();
+
+        loadSettingFromXML();
     }
 
     private void loadSettingFromXML() {
-        String dir = configUtil.getProperties().getProperty(DEFAULTDIR);
-        if (dir != null) {
-            settingController.getBrowserResult().setText(dir);
+        odir = configUtil.getProperty(DEFAULTDIR);
+        if (odir != null) {
+            settingController.getBrowserResult().setText(odir);
         }
 
-
-        String value = configUtil.getProperties().getProperty(ISBGSWITCH);
-
+        String value = configUtil.getProperty(ISBGSWITCH);
 
         if (value != null) {
-            if (value.equals(TRUR)) {
-                settingController.getBgImgSwitch().setSelected(true);
-            } else {
-                settingController.getBgImgSwitch().setSelected(false);
-            }
+            oBgImgSwitch = value.equals(TRUR);
+            settingController.getBgImgSwitch().setSelected(oBgImgSwitch);
         }
     }
 
@@ -74,7 +76,14 @@ public class SettingUI implements StyleChangeable {
             String defaultDir = settingController.getBrowserResult().getText().trim();
             Boolean changeBg = settingController.getBgImgSwitch().isSelected();
 
-            configUtil.getProperties().setProperty(DEFAULTDIR, defaultDir);
+            configUtil.setProperty(DEFAULTDIR, defaultDir);
+
+            //TODO:添加设置改变监听事件,做好背景自动切换功能
+            //保存时对比以前设置,看是否改变
+            if (!defaultDir.equals(odir)) {
+
+            }
+
 
             String tmp;
             if (changeBg) {
@@ -82,7 +91,7 @@ public class SettingUI implements StyleChangeable {
             } else {
                 tmp = FALSE;
             }
-            configUtil.getProperties().setProperty(ISBGSWITCH, tmp);
+            configUtil.setProperty(ISBGSWITCH, tmp);
 
             //新建线程保存设置
             ThreadPool.getThreadPool().getNoninterruptablePool().submit(() -> configUtil.save());

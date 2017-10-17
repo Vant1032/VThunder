@@ -25,6 +25,7 @@ public class ThreadPool implements Exitable{
     private ExecutorService noninterruptablePool;
 
     private ThreadPool() {
+        ExitCommand.getExitCommand().addListener(this);
         noninterruptablePool = new ThreadPoolExecutor(2, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new SynchronousQueue<>());
         interruptablePool = new ThreadPoolExecutor(2, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new SynchronousQueue<>());
     }

@@ -1,5 +1,6 @@
 package logic;
 
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +15,8 @@ import java.util.Properties;
  * <p>1.用于界面的保存以及恢复</p>
  * <p>2.用于配置相关</p>
  * <p></p>
- *
+ * TODO:做个优化,如果设置没有改变,则无需保存,并且可以每隔一段时间保存下设置,不过最好是立即保存
+ * 所有的设置都应该立即保存,不应该为了那点保存文件的耗时而犹豫
  * @author Vant
  * @version 2017/10/9 下午 6:11
  */
@@ -23,7 +25,8 @@ public class ConfigUtil {
     public static final String CONFFILENAME = "config.vml";
     @NotNull
     private Properties properties = new Properties();
-    File file;
+    private File file;
+    private volatile boolean modified = false;
 
     /**
      * 新建的时候会自动获取本地设置
@@ -38,24 +41,40 @@ public class ConfigUtil {
         }
     }
 
-    @NotNull
-    public Properties getProperties() {
-        return properties;
+    /**
+     * @param key
+     * @param value
+     * @return the previous value of the specified key in this propertylist, or {@code null} if it did not have one.
+     */
+    public Object setProperty(String key, String value) {
+        if (properties.getProperty(key).equals(value)) {
+            return value;
+        }
+        modified = true;
+        return properties.setProperty(key, value);
+    }
+
+    public String getProperty(String key) {
+        return properties.getProperty(key);
     }
 
     public void save() {
-        if (file.exists() == false) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (modified == false) return;
+        try {
+            //因为本身创建时会检查是否有这个文件,有就不创建,所以不需要额外的处理
+            file.createNewFile();
+        } catch (IOException e) {
+            System.out.println("创建文件异常");
         }
 
         try (FileOutputStream os = new FileOutputStream(file)) {
             properties.storeToXML(os, "Don't Modify this");
+            modified = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("保存设置文件异常");
+            alert.setTitle("＞﹏＜ 遇到一个问题");
+            alert.show();
         }
     }
 
@@ -75,7 +94,6 @@ public class ConfigUtil {
      * 方便工厂方法调用,扩展设置类的时候添加一个枚举就行了
      */
     public enum Type {
-        DEFAULT
+        DEFAULT;
     }
 }
-//TODO:写根据导入的设置进行软件行为改动

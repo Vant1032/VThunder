@@ -68,7 +68,7 @@ public class AddTaskUI implements Exitable, StyleChangeable {
 
         addEvent(vThunderUI);
 
-        addTaskController.getSaveDirectory().setText(ConfigUtil.getConfigUtil(ConfigUtil.Type.DEFAULT).getProperties().getProperty(SettingUI.DEFAULTDIR));
+        addTaskController.getSaveDirectory().setText(ConfigUtil.getConfigUtil(ConfigUtil.Type.DEFAULT).getProperty(SettingUI.DEFAULTDIR));
 
         addTaskStage.show();
     }

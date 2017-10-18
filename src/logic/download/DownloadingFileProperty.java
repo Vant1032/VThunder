@@ -1,4 +1,4 @@
-package logic;
+package logic.download;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;

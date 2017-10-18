@@ -53,23 +53,13 @@ public class ThreadPool implements Exitable{
     @Override
     public void onExit() {
         System.out.println("ThreadPool.onExit start");
+        noninterruptablePool.shutdownNow();
         try {
             noninterruptablePool.awaitTermination(60, TimeUnit.SECONDS);
+            exited = true;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while (true) {
-            exited = noninterruptablePool.isShutdown();
-            if (exited){
-                break;
-            }
-            try {
-                Thread.sleep(40);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
         System.out.println("ThreadPool.onExit end");
     }
 

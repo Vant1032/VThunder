@@ -1,4 +1,4 @@
-package logic;
+package logic.download;
 
 import javafx.util.Pair;
 import org.jetbrains.annotations.Contract;

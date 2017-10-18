@@ -1,8 +1,10 @@
-package logic;
+package logic.download;
 
 import controller.VTMainController;
 import javafx.scene.media.AudioClip;
 import javafx.util.Pair;
+import logic.SaveToLocal;
+import logic.ThreadPool;
 import org.jetbrains.annotations.NotNull;
 import viewModel.VThunderUI;
 

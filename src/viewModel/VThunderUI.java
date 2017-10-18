@@ -13,11 +13,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import logic.DownloadUtil;
-import logic.DownloadingFileProperty;
 import logic.ExitCommand;
 import logic.Exitable;
+import logic.MainUIBackground;
 import logic.StyleChangeable;
+import logic.download.DownloadUtil;
+import logic.download.DownloadingFileProperty;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,6 +61,11 @@ public class VThunderUI implements Exitable, StyleChangeable {
         vThunderstage.show();
 
         floatWindow = new FloatWindow();
+
+
+        MainUIBackground mainUIBackground = MainUIBackground.getMainUIBackground();
+        mainUIBackground.add(this);
+        mainUIBackground.checkSetting();
 
         ExitCommand.getExitCommand().addListener(this);
     }

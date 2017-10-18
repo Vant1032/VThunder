@@ -32,7 +32,6 @@ public class SettingUI implements StyleChangeable {
 
     //原设置 用于更新设置事件用----------------------
     private boolean oBgImgSwitch;
-    private String odir = "";
     //---------------------------
 
     public SettingUI(Window parentWindow) throws IOException {
@@ -48,9 +47,9 @@ public class SettingUI implements StyleChangeable {
     }
 
     private void loadSettingFromXML() {
-        odir = configUtil.getProperty(DEFAULTDIR);
-        if (odir != null) {
-            settingController.getBrowserResult().setText(odir);
+        String dir = configUtil.getProperty(DEFAULTDIR);
+        if (dir != null) {
+            settingController.getBrowserResult().setText(dir);
         }
 
         String value = configUtil.getProperty(ISBGSWITCH);
@@ -78,11 +77,7 @@ public class SettingUI implements StyleChangeable {
 
             configUtil.setProperty(DEFAULTDIR, defaultDir);
 
-            //TODO:添加设置改变监听事件,做好背景自动切换功能
-            //保存时对比以前设置,看是否改变
-            if (!defaultDir.equals(odir)) {
 
-            }
 
 
             String tmp;
@@ -91,7 +86,15 @@ public class SettingUI implements StyleChangeable {
             } else {
                 tmp = FALSE;
             }
-            configUtil.setProperty(ISBGSWITCH, tmp);
+            //TODO:添加设置改变监听事件,做好背景自动切换功能
+            //保存时对比以前设置,看是否改变
+            if (oBgImgSwitch != changeBg) {
+                configUtil.setProperty(ISBGSWITCH, tmp);
+
+                //通知背景切换状态改变
+
+            }
+
 
             //新建线程保存设置
             ThreadPool.getThreadPool().getNoninterruptablePool().submit(() -> configUtil.save());

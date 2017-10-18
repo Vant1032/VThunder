@@ -19,13 +19,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import logic.ConfigUtil;
-import logic.DownloadCommand;
-import logic.DownloadUtil;
-import logic.DownloadingFileProperty;
 import logic.ExitCommand;
 import logic.Exitable;
 import logic.StyleChangeable;
 import logic.ThreadPool;
+import logic.download.DownloadCommand;
+import logic.download.DownloadUtil;
+import logic.download.DownloadingFileProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

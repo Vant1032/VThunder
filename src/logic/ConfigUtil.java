@@ -14,7 +14,7 @@ import java.util.Properties;
 /**
  * <p>1.用于界面的保存以及恢复</p>
  * <p>2.用于配置相关</p>
- * <p></p>
+ * <p>3.会自动保存设置,如果更改设置而忘记保存,则会自动间隔一定时间保存设置,注意:这应该是作为最后手段</p>
  * TODO:做个优化,如果设置没有改变,则无需保存,并且可以每隔一段时间保存下设置,不过最好是立即保存
  * 所有的设置都应该立即保存,不应该为了那点保存文件的耗时而犹豫
  * @author Vant
@@ -59,7 +59,7 @@ public class ConfigUtil {
     }
 
     public void save() {
-        if (modified == false) return;
+        if (!modified) return;
         try {
             //因为本身创建时会检查是否有这个文件,有就不创建,所以不需要额外的处理
             file.createNewFile();
@@ -69,7 +69,7 @@ public class ConfigUtil {
 
         try (FileOutputStream os = new FileOutputStream(file)) {
             properties.storeToXML(os, "Don't Modify this");
-            modified = true;
+            modified = false;//保存好了设置之后清除设置已更改的状态
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("保存设置文件异常");

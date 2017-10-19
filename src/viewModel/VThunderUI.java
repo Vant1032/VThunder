@@ -6,8 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -23,6 +27,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -120,6 +125,48 @@ public class VThunderUI implements Exitable, StyleChangeable {
             event.consume();
             ExitCommand.getExitCommand().informAll();
         });
+
+        //添加上下文菜单
+        vtMainController.getDownloaded().setRowFactory((TableView<DownloadingFileProperty> param) -> {
+            TableRow<DownloadingFileProperty> row = new TableRow<>();
+            MenuItem menuItem = new MenuItem("打开文件");
+            ContextMenu contextMenu = new ContextMenu(menuItem);
+            menuItem.setOnAction(event -> {
+                System.out.println(row.getItem().getSavePath());
+                try {
+                    Desktop.getDesktop().open(new File(row.getItem().getSavePath()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            row.emptyProperty().addListener((observable, oldValue, newValue) -> {
+                row.setContextMenu(contextMenu);
+            });
+
+            return row;
+        });
+
+        vtMainController.getDownloading().setRowFactory(param -> {
+            TableRow<DownloadingFileProperty> row = new TableRow<>();
+            MenuItem menuItem = new MenuItem("打开目录");
+            ContextMenu contextMenu = new ContextMenu(menuItem);
+            menuItem.setOnAction(event -> {
+                try {
+                    Desktop.getDesktop().open(new File(row.getItem().getSavePath()).getParentFile());
+                } catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("＞﹏＜ 遇到一个问题");
+                    alert.setContentText("无法打开文件夹");
+                    alert.show();
+                }
+            });
+            row.emptyProperty().addListener((observable, oldValue, newValue) -> {
+                row.setContextMenu(contextMenu);
+            });
+
+            return row;
+        });
     }
 
     public FloatWindow getFloatWindow() {
@@ -147,6 +194,7 @@ public class VThunderUI implements Exitable, StyleChangeable {
         vThunderScene.getStylesheets().add("css/VTMain.css");
 
     }
+
 
     /**
      * 构造表格相关的东西

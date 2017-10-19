@@ -46,8 +46,10 @@ https://dldir1.qq.com/invc/tt/QQBrowser_Setup_9.6.12190.400.exe
 
 <progress>
 做出设置界面相关功能#
+添加背景轮换功能#
 
-添加背景轮换功能<
+添加打开下载文件目录功能<
+添加多线程下载功能
 添加暂停下载功能
 添加删除下载文件功能
 添加重新下载功能
@@ -56,8 +58,6 @@ https://dldir1.qq.com/invc/tt/QQBrowser_Setup_9.6.12190.400.exe
 </progress>
 
 <bugs>
-
-1.某些关闭命令依赖于线程池,而线程池不能提前关闭
 
 
 </bugs>

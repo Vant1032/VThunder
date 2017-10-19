@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import logic.ConfigUtil;
+import logic.MainUIBackground;
 import logic.StyleChangeable;
 import logic.ThreadPool;
 import org.jetbrains.annotations.Nullable;
@@ -92,7 +93,7 @@ public class SettingUI implements StyleChangeable {
                 configUtil.setProperty(ISBGSWITCH, tmp);
 
                 //通知背景切换状态改变
-
+                MainUIBackground.getMainUIBackground().checkSetting();
             }
 
 

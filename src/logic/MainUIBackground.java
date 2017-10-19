@@ -15,13 +15,10 @@ import java.util.Set;
  * @version 2017/10/15 下午 5:35
  */
 public class MainUIBackground {
-    public static volatile MainUIBackground mainUIBackground = null;
+    private static volatile MainUIBackground mainUIBackground = null;
 
     public static synchronized MainUIBackground getMainUIBackground() {
-//        System.out.println(mainUIBackground);
-//        System.out.println(mainUIBackground);
         if (mainUIBackground == null) {
-//            System.out.println(mainUIBackground);
             mainUIBackground = new MainUIBackground();
         }
         return mainUIBackground;
@@ -67,13 +64,13 @@ public class MainUIBackground {
                 System.out.println("running = " + running);
                 while (running) {
                     try {
-                        Thread.sleep(interval);
                         System.out.println("开始切换壁纸");
                         for (StyleChangeable s : styleChangeables) {
                             Platform.runLater(() -> {
                                 s.setStyle("-fx-background-image: url(\"file:///" + paths.get((now++) % paths.size()) + "\");");
                             });
                         }
+                        Thread.sleep(interval);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

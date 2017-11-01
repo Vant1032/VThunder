@@ -43,7 +43,7 @@ public class VThunderUI implements Exitable, StyleChangeable {
 
     public VThunderUI() {
         try {
-            Tray tray = new Tray();
+            Tray tray = new Tray(this);
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("＞﹏＜ 遇到一个问题");

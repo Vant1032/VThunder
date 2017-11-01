@@ -25,7 +25,7 @@ public class Tray implements Exitable {
      * @throws IOException  获取图标失败
      * @throws AWTException if the desktop system tray is missing
      */
-    public Tray() throws AWTException, IOException {
+    public Tray(VThunderUI vThunderUI) throws AWTException, IOException {
         ExitCommand.getExitCommand().addListener(this);
         trayIcon.setImageAutoSize(true);
         trayIcon.setToolTip("vThunder正在运行");
@@ -35,6 +35,10 @@ public class Tray implements Exitable {
         trayIcon.setPopupMenu(popupMenu);
         SystemTray systemTray = SystemTray.getSystemTray();
         systemTray.add(trayIcon);
+
+        trayIcon.addActionListener(e -> {
+
+        });
     }
 
     private void addItem(@NotNull PopupMenu popupMenu) {
@@ -75,4 +79,6 @@ public class Tray implements Exitable {
     public boolean isExited() {
         return exited;
     }
+
+
 }

@@ -79,8 +79,6 @@ public class SettingUI implements StyleChangeable {
             configUtil.setProperty(DEFAULTDIR, defaultDir);
 
 
-
-
             String tmp;
             if (changeBg) {
                 tmp = TRUR;

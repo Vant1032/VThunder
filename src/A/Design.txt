@@ -61,3 +61,7 @@ https://dldir1.qq.com/invc/tt/QQBrowser_Setup_9.6.12190.400.exe
 
 
 </bugs>
+
+<other>
+做出界面整合计时任务功能
+</other>

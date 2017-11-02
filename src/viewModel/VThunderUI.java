@@ -191,7 +191,7 @@ public class VThunderUI implements Exitable, StyleChangeable {
 
         vThunderstage.setScene(vThunderScene);
         vThunderstage.getIcons().add(new Image("img/迅雷.png"));
-        vThunderScene.getStylesheets().add("css/VTMain.css");
+//        vThunderScene.getStylesheets().add("css/VTMain.css");
 
     }
 

@@ -52,6 +52,12 @@ public class VTMainController implements Initializable {
     @FXML
     private ImageView setting;
 
+    @FXML
+    private ImageView timer;
+
+    public ImageView getTimer() {
+        return timer;
+    }
 
     public ImageView getAdd() {
         return add;

@@ -2,6 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -64,12 +67,18 @@
                 <HBox fx:id="topRight" alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="1280.0"
                       GridPane.columnIndex="2">
                     <children>
-                        <ImageView fx:id="timer" fitHeight="150.0" fitWidth="21.0" pickOnBounds="true"
-                                   preserveRatio="true">
-                            <image>
-                                <Image url="@../img/计时器.png"/>
-                            </image>
-                        </ImageView>
+                        <MenuBar fx:id="menuBar">
+                            <menus>
+                                <Menu fx:id="timeSetMenu" mnemonicParsing="false">
+                                    <items>
+                                        <MenuItem fx:id="timedPowerOff" mnemonicParsing="false" text="定时关机"/>
+                                    </items>
+                                </Menu>
+                            </menus>
+                            <HBox.margin>
+                                <Insets/>
+                            </HBox.margin>
+                        </MenuBar>
                         <ImageView fx:id="setting" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/设置.png"/>
